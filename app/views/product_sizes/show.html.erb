@@ -1,0 +1,15 @@
+<% content_for :javascript do %>
+  <script type="text/javascript">
+     ShopifyApp.ready(function(){
+       ShopifyApp.Bar.initialize({ title: "Product size" });
+     });
+  </script>
+<% end %>
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Product size name:</strong>
+  <%= @product_size.product_size_name %>
+</p>
+
+<%= link_to 'Back', product_sizes_path %>

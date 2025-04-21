@@ -1,0 +1,67 @@
+<% content_for :javascript do %>
+  <script type="text/javascript">
+     ShopifyApp.ready(function(){
+       ShopifyApp.Bar.initialize({ title: "Application Configration Guide" });
+     });
+  </script>
+<% end %>
+<!-- <div style="margin-left:10px;">
+	<div class="col-sm-12">
+	  <h1>Application Configration Guide</h1>
+	  <p>Replace your shopify store url with <b>"example.myshopify.com"</b> which is written in shop parameter section of ajax call</p>
+	  <ul class="list-group">
+		  <h3>Write this javascript Code at the end of your Product Detail Page</h3>
+		  <li class="list-group-item">
+		  	<%#= "<script type='text/javascript'>
+		  		$(document).ready(function(){
+		  			$.ajax({ url: 'https://simplysizechart.alchemative.net/product_size_charts/find_by_sku?product_sku={{ product.title }}&shop=example.myshopify.com',
+		        	datatype:'json',
+		        	type: 'GET',
+		        	success: function (result) {
+			          if (result.video_present == true)
+			          {
+			         		$('a#custom-video').show();
+			         	}
+			         	else
+			          {
+			         		$('a#custom-video').hide();
+			         	}
+			         	$('.video-product').attr('src', result.video_link);
+							}
+		        });        
+					});  
+				</script>" %>
+				</li>
+				<li class="list-group-item">
+				<%#= "<script type='text/javascript'>
+					$(document).ready(function(){
+				    $('.video-image').click(function(){
+				      $('.zoomWrapper').hide();
+				    });
+				    $('.video-image').click(function(){
+				      $('.video-product').show();
+				    });
+				   	$('.image-link').click(function(){
+				      $('.zoomWrapper').show();
+				    });
+				  	$('.image-link').click(function(){
+				      $('.video-product').hide();
+				    });
+					});
+				</script>" %>
+		  </li>
+		  <h3>Write this CSS Code at the end of your Product Detail Page</h3>
+		  <li class="list-group-item">
+		  	<%#= "<style type='text/css'>.video-product{display:none;}</style>" %>
+		  </li>
+		  <h3>Write this HTML Code where image gallery list showing in your Product Detail Page</h3>
+		  <li class="list-group-item">
+		  	<%#= "<li> <a id='custom-video' class='thumb-link video-image' >
+					{{ 'play_icon_white.png' | asset_url | img_tag }}
+				</a></li>" %>
+		  </li>
+		  <h3>Write this HTML Code where image container showing in your Product Detail Page</h3>
+		  <li class="list-group-item"><%#= "<video width='400' controls loop autoplay controlsList='nodownload' class='video-product'><source src='' type='video/mp4'></video>" %></li>
+	  </ul>
+	</div>
+</div> -->

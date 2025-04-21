@@ -1,0 +1,39 @@
+<%= form_for(product_size) do |f| %>
+  <% if product_size.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(product_size.errors.count, "error") %> prohibited this product_size from being saved:</h2>
+
+      <ul>
+      <% product_size.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="col-sm-12">
+    <div class="col-sm-6">
+      <div class="form-group">
+        <%= f.label :product_size_name, "Size" %>
+        <%= f.text_field :product_size_name, :class => 'form-control' %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-12" style="display:none;">
+    <div class="col-sm-6">
+      <div class="form-group">
+        <%= f.label :shop_name %>
+        <%= f.text_field :shop_name, :class => 'form-control', :value => params[:shop]  %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-12">
+    <div class="col-sm-6">
+      <div class="form-group">
+        <%= f.submit :class => "btn btn-primary", :value => "Save Product Size" %>
+      </div>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,2 @@
+module AppConfigrationsHelper
+end

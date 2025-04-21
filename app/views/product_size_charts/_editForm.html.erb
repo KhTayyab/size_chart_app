@@ -1,0 +1,149 @@
+<%= form_for(product_size_chart,:class=>"form") do |f| %>
+  <% if product_size_chart.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(product_size_chart.errors.count, "error") %> prohibited this product_size_chart from being saved:</h2>
+
+      <ul>
+      <% product_size_chart.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="col-sm-12">
+    <div class="col-sm-6">
+      <div class="form-group">
+        <%= f.label :product_name, "Product Name" %>
+        <%= f.text_field :product_name, :class => 'form-control' %>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="form-group">
+        <%= f.label :product_sku, "Product SKU" %>
+        <%= f.text_field :product_sku, :class => 'form-control' %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-12">
+    <div class="col-sm-6">
+      <div class="form-group">
+        <%= f.label :product_sizes_ids, "Select Sizes" %> 
+        <div >
+          <%= select_tag 'product_sizes_ids', options_for_select(@product_sizes.collect{ |p| [p.product_size_name, p.id] }, @product_size_chart.product_sizes_ids), multiple: true, :class => "form-control", :id => "product_sizes_ids", :disabled=>true %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-6">
+      <div class="form-group">
+        <%= f.label :no_of_rows, "No of Rows" %>
+        <%= f.number_field :no_of_rows, :class => 'form-control', :id => "no_of_rows", :disabled => true %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-12" style="display:none;">
+    <div class="col-sm-6">
+      <div class="form-group">
+        <%= f.label :shop_name %>
+        <%= f.text_field :shop_name, :class => 'form-control', :value => params[:shop]  %>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-12 text-center">
+    <div class="form-group">
+      <button class="btn btn-primary" id="get_sizes_list" disabled="true">Generate Chart</button>
+    </div>
+  </div>
+
+  <div class="col-sm-12">
+    <div class="table-responsive" id="size_chart_data" style="display:none;">
+      <table class="table table-condensed table-hover">
+        <thead>
+          <tr id="table_header">
+            
+          </tr>
+        </thead>
+        <tbody id="table_body">
+        </tbody>
+      </table>
+    </div>
+    <br>
+  </div>
+
+  <div class="col-sm-12 text-center" id="save_button" style="display:none;">
+    <div class="form-group">
+      <%= f.submit :class => "btn btn-primary", :value => "Save Size Chart" %>
+    </div>
+  </div>
+
+<% end %>
+ 
+
+ <script type="text/javascript">
+      $.ajax( {
+        type: "GET",
+        url: window.location.origin = "/product_size_charts/get_sizes_list_for_edit"+"?id="+window.location.pathname.split('/')[2],
+        data: {product_sizes_ids: $('#product_sizes_ids').val(), no_of_rows: $('#no_of_rows').val()},
+        success: function( response ) {
+          var product_size_chart_details = response.product_size_chart_details;
+          var product_size_list = response.product_size_list;
+          if (product_size_chart_details.length > 0) {
+            $('#size_chart_data').show();
+            $('#save_button').show();
+            $('#table_header').empty();
+            $('#table_header').append('<th>Size</th>');
+            for (var i = 0; i < product_size_list.length; i++) {
+              $('#table_header').append('<th>'+product_size_list[i].product_size_name+'</th>');
+            };
+            $('#table_body').empty();
+            for (var i = 0; i < product_size_chart_details.length; i++) {
+              var table_body = ""
+              var value_table_body = product_size_chart_details[i]['size_detail_name'];
+              table_body = '<td><input type="text" name="product_size_chart[product_size_chart_details]['+i+'][size_detail_name]" value="'+value_table_body+'" class="form-control"></td>'
+              for (var j = 0; j < product_size_chart_details[i].product_size_details.length; j++) {
+                var value_table_body_nested =product_size_chart_details[i].product_size_details[j]['size_value'];
+                table_body = table_body + '<td><input type="text" name="product_size_chart[product_size_chart_details]['+i+'][product_size_details]['+j+'][size_value]" value="'+value_table_body_nested+'" class="form-control"><input type="hidden" name="product_size_chart[product_size_chart_details]['+i+'][product_size_details]['+j+'][product_size_id]" class="form-control" value="'+product_size_chart_details[i].product_size_details[j].product_size_id+'"></td>'
+              }
+              $('#table_body').append("<tr>"+table_body+"</tr>");
+            };
+          };
+        },
+        error: function (data) {},
+      });
+    $('#get_sizes_list').on('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation(); 
+      $.ajax( {
+        type: "GET",
+        url: window.location.origin = "/product_size_charts/get_sizes_list",
+        data: {product_sizes_ids: $('#product_sizes_ids').val(), no_of_rows: $('#no_of_rows').val()},
+        success: function( response ) {
+          var product_size_chart_details = response.product_size_chart_details;
+          var product_size_list = response.product_size_list;
+          if (product_size_chart_details.length > 0) {
+            $('#size_chart_data').show();
+            $('#save_button').show();
+            $('#table_header').empty();
+            $('#table_header').append('<th>Size</th>');
+            for (var i = 0; i < product_size_list.length; i++) {
+              $('#table_header').append('<th>'+product_size_list[i].product_size_name+'</th>');
+            };
+            $('#table_body').empty();
+            for (var i = 0; i < product_size_chart_details.length; i++) {
+              var table_body = ""
+              table_body = '<td><input type="text" name="product_size_chart[product_size_chart_details]['+i+'][size_detail_name]" class="form-control"></td>'
+              for (var j = 0; j < product_size_chart_details[i].product_size_details.length; j++) {
+                table_body = table_body + '<td><input type="text" name="product_size_chart[product_size_chart_details]['+i+'][product_size_details]['+j+'][size_value]" class="form-control"><input type="hidden" name="product_size_chart[product_size_chart_details]['+i+'][product_size_details]['+j+'][product_size_id]" class="form-control" value="'+product_size_chart_details[i].product_size_details[j].product_size_id+'"></td>'
+              }
+              $('#table_body').append("<tr>"+table_body+"</tr>");
+            };
+          };
+        },
+        error: function (data) {},
+      });
+    });
+</script>

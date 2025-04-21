@@ -1,0 +1,50 @@
+<% content_for :javascript do %>
+  <script type="text/javascript">
+     ShopifyApp.ready(function(){
+       ShopifyApp.Bar.initialize({ title: "Product Size Chart" });
+     });
+  </script>
+<% end %>
+<% product_sizes = ProductSize.where(:id => @product_size_chart.product_sizes_ids).order('product_size_name ASC') %>
+
+<div class="col-sm-12">
+	<div class="col-sm-6">
+		<div class="list-group">
+		  <h4 class="list-group-item-heading">Product Name:</h4>
+		  <p class="list-group-item-text"><%= @product_size_chart.product_name %></p>
+		</div>
+	</div>
+	<div class="col-sm-6">
+		<div class="list-group">
+		  <h4 class="list-group-item-heading">Product SKU:</h4>
+		  <p class="list-group-item-text"><%= @product_size_chart.product_sku %></p>
+		</div>
+	</div>
+</div>
+
+<div class="col-sm-12">
+  <h4 class="text-center">Product Size Chart Detail</h4>
+  <div class="table-responsive">
+    <table class="table table-condensed table-hover">
+      <thead>
+        <tr>
+          <th>Size</th>
+          <% product_sizes.each do |product_size| %>
+						<th><%= product_size.product_size_name %></th>
+					<% end %>
+        </tr>
+      </thead>
+      <tbody>
+      	<% @product_size_chart.product_size_chart_details.order('id ASC').each do |product_size_chart_detail| %>
+			<tr>
+				<td><%= product_size_chart_detail.size_detail_name %></td>
+				<% product_size_chart_detail.product_size_details.order('id ASC').each do |product_size_detail| %>
+					<td><%= product_size_detail.size_value %></td>
+				<% end %>
+			</tr>
+		<% end %>
+      </tbody>
+    </table>
+  </div>
+  <br>
+</div>

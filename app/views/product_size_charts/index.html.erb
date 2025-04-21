@@ -1,0 +1,41 @@
+<% content_for :javascript do %>
+  <script type="text/javascript">
+     ShopifyApp.ready(function(){
+       ShopifyApp.Bar.initialize({ title: "Product Size Chart" });
+     });
+  </script>
+<% end %>
+<div style="margin-left:20px;">
+  <%= link_to 'New Product Size Chart', new_product_size_chart_path(:shop => params[:shop]), :class => "btn btn-primary" %>  
+</div>
+
+<div class="col-sm-12">
+  <h2 class="text-center">Product Size Charts</h2>
+  <div class="table-responsive">
+    <table class="table table-condensed table-hover">
+      <thead>
+        <tr>
+          <th class="col-sm-4">Product Name</th>
+          <th class="col-sm-4">Product SKU</th>
+          <th class="col-sm-4 text-center">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if @product_size_charts.count > 0 %>
+          <% @product_size_charts.each do |product_size_chart| %>
+            <tr>
+              <td class="col-sm-4"><%= product_size_chart.product_name %></td>
+              <td class="col-sm-4"><%= product_size_chart.product_sku %></td>
+              <td class="col-sm-4 text-center"><%= link_to 'Show', product_size_chart_path(:id => product_size_chart.id, :shop => params[:shop]), :class => "btn btn-info" %>
+              <%= link_to 'Edit', edit_product_size_chart_path(product_size_chart, :shop => params[:shop]), :class => "btn btn-info" %>
+              <%= link_to 'Destroy', product_size_chart, method: :delete, :class => "btn btn-danger" %></td>
+            </tr>
+          <% end %>
+        <% else %>
+          <td colspan="4" class="text-center"> No History Found </td>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <br>
+</div>

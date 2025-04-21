@@ -1,0 +1,13 @@
+<% content_for :javascript do %>
+  <script type="text/javascript">
+     ShopifyApp.ready(function(){
+       ShopifyApp.Bar.initialize({ title: "Product Size Chart" });
+     });
+  </script>
+<% end %>
+
+	<h2 class="text-center">Editing Product Size Chart</h2>
+	<br>
+	<%= render 'editForm', product_size_chart: @product_size_chart %>
+<%#= link_to 'Show', @product_size_chart %> |
+<%#= link_to 'Back', product_size_charts_path %>
